@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script type="text/javascript" src="js/bme280.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/default.css">
+    <link rel="icon" type="image/ico" href="images/favicon.ico">
+    <meta charset="UTF-8">
+    <title>BME 280</title>
+</head>
+<body onload="setup('ws://192.168.1.1:8080/pubsub/');">
+<div id="container" class="chart"></div>
+</body>
+</html>
