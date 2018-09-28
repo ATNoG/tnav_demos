@@ -9,6 +9,8 @@
 // Include custom images
 #include "images.h"
 
+// Include messages in EN/PT
+#include "msg_pt.h" 
 
 #define SSID "demoIT"
 #define PASSWORD ""
@@ -30,7 +32,7 @@ unsigned int l = 0;
 time_t ts = 0;
 
 TimeChangeRule dstRule = {"WEST", Last, Sun, Mar, 2, +60};
-TimeChangeRule stdRule = { "WET", Last, Sun, Oct, 2, 0};
+TimeChangeRule stdRule = {"WET",  Last, Sun, Oct, 2, 0};
 Timezone tz(dstRule, stdRule);
 
 void setup() {
@@ -53,22 +55,24 @@ void setup() {
   while (WiFi.status() != WL_CONNECTED) {
     display.clear();
     Serial.print(".");
-    progress = (progress+4) % 100;
+    if(progress < 99) {
+      progress = (progress+3) % 99;
+    }
     // draw the progress bar
     display.drawProgressBar(0, 32, 120, 10, progress);
     // draw the percentage as String
     display.setTextAlignment(TEXT_ALIGN_CENTER);
-    display.drawString(64,  3, "Connect to WiFi");
+    display.drawString(64,  3, connect_msg);
     display.drawString(64, 15, String(progress) + "%");
     display.display();
-    delay(120);
+    delay(100);
   }
   
   progress = 100;
   display.clear();
   display.drawProgressBar(0, 32, 120, 10, progress);
   display.setTextAlignment(TEXT_ALIGN_CENTER);
-  display.drawString(64,  3, "Connect to WiFi");
+  display.drawString(64,  3, connect_msg);
   display.drawString(64, 15, String(progress) + "%");
   display.display();
   delay(120);
@@ -83,11 +87,11 @@ void setup() {
 
   display.clear();
   display.setTextAlignment(TEXT_ALIGN_LEFT);
-  display.drawString(0,  3, "NodeMCU V1.0 (ESP8266)");
-  display.drawString(0, 15, "Connected to "+String(SSID));
-  display.drawString(0, 27, "IP address: " +WiFi.localIP().toString());
+  display.drawString(0,  3, board_msg);
+  display.drawString(0, 15, connected_msg + String(SSID));
+  display.drawString(0, 27, ip_msg + WiFi.localIP().toString());
   display.display();
-  delay(1000);
+  delay(3000);
 
   // Start UDP Socket
   udp.begin(localUdpPort);
@@ -136,10 +140,10 @@ void loop() {
   display.clear();
   display.setTextAlignment(TEXT_ALIGN_LEFT);
   display.drawString(0,  0, buff);
-  display.drawString(0, 11, "Temperature: "+String(t)+"ºC");
-  display.drawString(0, 22, "Pressure: "+String(p)+"hPa");
-  display.drawString(0, 33, "Humidity: "+String(h)+"%");
-  display.drawString(0, 44, "Light: "+String(l)+"%");
+  display.drawString(0, 11, temp_msg     + String(t)+"ºC");
+  display.drawString(0, 22, pressure_msg + String(p)+"hPa");
+  display.drawString(0, 33, humidity_msg + String(h)+"%");
+  display.drawString(0, 44, light_msg    + String(l)+"%");
   display.drawXbm(96, 32, sun_width, sun_height, sun_bits);
   display.display();
   

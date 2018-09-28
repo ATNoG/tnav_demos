@@ -25,7 +25,7 @@ unsigned int port = 8888;
 
 // Wifi NTP UDP
 WiFiUDP ntpUDP;
-NTPClient timeClient(ntpUDP, "ntp.ua.pt");
+NTPClient timeClient(ntpUDP, "192.168.1.1");
 
 void setup() {
   Serial.begin(115200);
@@ -38,14 +38,12 @@ void setup() {
       while (1);
   }
   Serial.println("BME280 Test");
-  Serial.println();
   delay(100);
 
   // BH1750
   //Wire.begin(D5,D6);
   lightMeter.begin();
   Serial.println("BH1750 Test");
-  Serial.println();
   delay(100);
 
   // WiFi Connect
