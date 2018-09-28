@@ -1,0 +1,8 @@
+#define connect_msg   "Connecting to WiFi AP"
+#define board_msg     "NodeMCU V1.0 (ESP8266)"
+#define connected_msg "Connected to the AP: "
+#define ip_msg        "IP Address         : "
+#define temp_msg      "Temperature: "
+#define pressure_msg  "Pressure: "
+#define humidity_msg  "Humidity: "
+#define light_msg     "Ligth: "  
