@@ -1,18 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <script src="https://code.highcharts.com/highcharts.js"></script>
+  <head>
+    <script src="https://code.highcharts.com/highcharts.js"></script> 
     <script src="https://code.highcharts.com/highcharts-more.js"></script>
     <script src="http://code.highcharts.com/modules/solid-gauge.js"></script>
+    <script>if(typeof Highcharts == "undefined") {document.write('<script src="js/fallback/highcharts-custom.src.js"><\/script>');}</script>
     <script type="text/javascript" src="js/sensor.js"></script>
     <link rel="stylesheet" type="text/css" href="css/default.css">
     <link rel="icon" type="image/ico" href="images/favicon.ico">
     <meta charset="UTF-8">
-    <title>Sensor monitor (BME 280 & BH 1750)</title>
-</head>
-<body onload="setup('ws://192.168.1.1:8080/pubsub/');">
-<div id="chartBME280" class="chart"></div>
-<div class="spacer"></div>
-<div id="chartBH1750" class="chart"></div>
-</body>
+    <title>Sensor Monitor (BME 280 & BH 1750)</title>
+  </head>
+  <body onload="setup('ws://192.168.0.1:8080/pubsub/');">
+    <header>
+      <h1>Sensor Monitor (BME 280 & BH 1750)</h1>
+    </header>
+
+    <div id="chartBME280" class="chart"></div>
+    <div class="spacer"></div>
+    <div id="chartBH1750" class="chart"></div>
+
+    <footer>
+      <a href="https://it.pt/Groups/Index/19">
+        <img class=img-responsive src="images/logo-IT_25years.png"/>
+      </a>
+    </footer>
+  </body>
 </html>

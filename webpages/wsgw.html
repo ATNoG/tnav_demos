@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <script src="https://code.highcharts.com/highcharts.js"></script>
-    <script>if(typeof Highcharts == "undefined") {document.write('<script src="js/fallback/highcharts.js"><\/script>');}</script>
-    <script type="text/javascript" src="js/bme280.js"></script>
+    <script type="text/javascript" src="js/wsgw.js"></script>
     <link rel="stylesheet" type="text/css" href="css/default.css">
     <link rel="icon" type="image/ico" href="images/favicon.ico">
     <meta charset="UTF-8">
-    <title>BME 280</title>
+    <title>WSGW Status</title>
   </head>
   <body onload="setup('ws://192.168.0.1:8080/pubsub/');">
     <header>
-      <h1>BME 280</h1>
+      <h1>Web-Socket GateWay Status</h1>
     </header>
 
-    <div id="container" class="chart"></div>
+    <table id="tstatus">
+      <tbody>
+      </tbody>
+    </table>
 
     <footer>
       <a href="https://it.pt/Groups/Index/19">

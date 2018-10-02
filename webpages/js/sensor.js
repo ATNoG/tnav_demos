@@ -13,13 +13,13 @@ function setupHighcharts() {
       labels: {
         format: '{value}°C',
         style: {
-          color: Highcharts.getOptions().colors[5]
+          color: '#f15c80'
         }
       },
       title: {
         text: 'Temperature',
         style: {
-          color: Highcharts.getOptions().colors[5]
+          color: '#f15c80'
         }
       }
     },
@@ -29,13 +29,13 @@ function setupHighcharts() {
       labels: {
         format: '{value}%',
         style: {
-          color: Highcharts.getOptions().colors[0]
+          color: '#7cb5ec'
         }
       },
       title: {
         text: 'Humidity',
         style: {
-          color: Highcharts.getOptions().colors[0]
+          color: '#7cb5ec'
         }
       },
       opposite: true
@@ -46,13 +46,13 @@ function setupHighcharts() {
       labels: {
         format: '{value}hPa',
         style: {
-          color: Highcharts.getOptions().colors[2]
+          color: '#90ed7d'
         }
       },
       title: {
         text: 'Pressure',
         style: {
-          color: Highcharts.getOptions().colors[2]
+          color: '#90ed7d'
         }
       },
       opposite: true
@@ -66,7 +66,7 @@ function setupHighcharts() {
     series: [{name: 'Temperature',
       type: 'spline',
       yAxis: 0,
-      color: Highcharts.getOptions().colors[5],
+      color: '#f15c80',
       data: (function () {
         var data = [],time = (new Date()).getTime(), i;
         for (i = 0; i < 10; i += 1) {
@@ -78,7 +78,7 @@ function setupHighcharts() {
     {name: 'humidity',
       type: 'spline',
       yAxis: 1,
-      color: Highcharts.getOptions().colors[0],
+      color: '#7cb5ec',
       data: (function () {
         var data = [],time = (new Date()).getTime(), i;
         for (i = 0; i < 10; i += 1) {
@@ -90,7 +90,7 @@ function setupHighcharts() {
     {name: 'pressure',
       type: 'spline',
       yAxis: 2,
-      color: Highcharts.getOptions().colors[2],
+      color: '#90ed7d',
       data: (function () {
         var data = [],time = (new Date()).getTime(), i;
         for (i = 0; i < 10; i += 1) {
@@ -213,6 +213,14 @@ function setupWS(charts, ws) {
   };
 }
 
+function checkHC(ws) {
+  if(typeof Highcharts == "undefined") {
+    setTimeout(function() {checkHC(ws)}, 1000);
+  } else {
+    setupWS(setupHighcharts(), ws);
+  }
+}
+
 function setup(ws) {
-  setupWS(setupHighcharts(), ws);
+  checkHC(ws);  
 }

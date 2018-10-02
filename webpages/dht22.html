@@ -1,14 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script>if(typeof Highcharts == "undefined") {document.write('<script src="js/fallback/highcharts-custom.src.js"><\/script>');}</script>
     <script type="text/javascript" src="js/dht22.js"></script>
     <link rel="stylesheet" type="text/css" href="css/default.css">
     <link rel="icon" type="image/ico" href="images/favicon.ico">
     <meta charset="UTF-8">
     <title>DHT 22</title>
-</head>
-<body onload="setup('ws://192.168.1.1:8080/pubsub/');">
-<div id="container" class="chart"></div>
-</body>
+  </head>
+  <body onload="setup('ws://192.168.0.1:8080/pubsub/');">
+    <header>
+      <h1>DHT 22</h1>
+    </header>
+
+    <div id="container" class="chart"></div>
+
+    <footer>
+      <a href="https://it.pt/Groups/Index/19">
+        <img class=img-responsive src="images/logo-IT_25years.png"/>
+      </a>
+    </footer>
+  </body>
 </html>
