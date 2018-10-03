@@ -22,7 +22,7 @@ unsigned long delayTime = 800;
 // UDP Client
 WiFiUDP udp;
 unsigned int localUdpPort = 4210;
-const char* ip = "192.168.1.1";
+const char* ip = "192.168.0.1";
 unsigned int port = 8888;
 
 void setup() {

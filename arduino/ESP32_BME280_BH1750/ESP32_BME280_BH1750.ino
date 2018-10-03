@@ -20,12 +20,12 @@ unsigned long delayTime = 1000;
 // UDP Client
 WiFiUDP udp;
 unsigned int localUdpPort = 4210;
-const char* ip = "192.168.1.1";
+const char* ip = "192.168.0.1";
 unsigned int port = 8888;
 
 // Wifi NTP UDP
 WiFiUDP ntpUDP;
-NTPClient timeClient(ntpUDP, "192.168.1.1");
+NTPClient timeClient(ntpUDP, "192.168.0.1");
 
 void setup() {
   Serial.begin(115200);

@@ -20,7 +20,7 @@ SSD1306Brzo display(0x3c, D3, D5);
 // UDP Client
 WiFiUDP udp;
 unsigned int localUdpPort = 4210;
-const char* ip = "192.168.1.1";
+const char* ip = "192.168.0.1";
 int port = 8888;
 char packetBuffer[UDP_TX_PACKET_MAX_SIZE];
 

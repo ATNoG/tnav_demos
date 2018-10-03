@@ -55,7 +55,7 @@ function setupHighcharts() {
       yAxis: 0,
       color: '#f15c80',
       data: (function () {
-        var data = [],time = (new Date()).getTime(), i;
+        var data = [],time = 0, i;
         for (i = 0; i < 10; i += 1) {
           data.push({x: (time - ((10-i) * 1000)),y: 15});
         }
@@ -67,7 +67,7 @@ function setupHighcharts() {
       yAxis: 1,
       color: '#7cb5ec',
       data: (function () {
-        var data = [],time = (new Date()).getTime(), i;
+        var data = [],time = 0, i;
         for (i = 0; i < 10; i += 1) {
           data.push({x: (time - ((10-i) * 1000)),y: 50});
         }
