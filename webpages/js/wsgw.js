@@ -1,3 +1,5 @@
+var ws;
+
 function setup(ws) {
   setupWS(ws);
 }
@@ -8,8 +10,14 @@ function requestStatus(ws) {
   setTimeout(function() {requestStatus(ws)}, 3000);
 }
 
-function setupWS(ws) {
-  var ws = new WebSocket(ws);
+function ReleaseAll() {
+  console.log("ReleaseAll")
+  msg = {type:'releaseall'}
+  ws.send(JSON.stringify(msg))
+}
+
+function setupWS(address) {
+  ws = new WebSocket(address);
   ws.onopen = function()
   {
     console.log("Connection open.");

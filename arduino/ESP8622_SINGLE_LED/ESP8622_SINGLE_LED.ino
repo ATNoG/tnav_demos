@@ -6,13 +6,12 @@ const char* ssid     = "demoIT";
 const char* password = "";
 
 unsigned long delayTime = 10;
-unsigned int ledPinHum = 13;
-unsigned int ledPinLux = 12;
+unsigned int ledPin = D6;
 unsigned int humidity = 85;
 
 // UDP Client
 WiFiUDP udp;
-unsigned int localUdpPort = 4210;
+unsigned int localUdpPort = 4220;
 const char* ip = "192.168.0.1";
 int port = 8888;
 char packetBuffer[UDP_TX_PACKET_MAX_SIZE];
@@ -22,10 +21,8 @@ void setup() {
   delay(10);
 
   // LEDs Starts OFF
-  pinMode(ledPinHum, OUTPUT);
-  digitalWrite(ledPinHum, LOW);
-  pinMode(ledPinLux, OUTPUT);
-  digitalWrite(ledPinLux, LOW);
+  pinMode(ledPin, OUTPUT);
+  digitalWrite(ledPin, LOW);
   
   // Connect to WiFi
   Serial.println();
@@ -61,14 +58,6 @@ void setup() {
   root.printTo(udp);
   udp.println();
   udp.endPacket();
-
-  // Subscribe Light
-  root["topic"] = "light";
-
-  udp.beginPacket(ip, port);
-  root.printTo(udp);
-  udp.println();
-  udp.endPacket();
 }
 
 void loop() {
@@ -91,14 +80,10 @@ void loop() {
     root.printTo(Serial);
     Serial.println();
 
-    if(strcmp(topic,"humidity") == 0) {
-      if(value > humidity) {
-        digitalWrite(ledPinHum, HIGH);
-      } else {
-        digitalWrite(ledPinHum, LOW);
-      }
+    if(value > humidity) {
+      digitalWrite(ledPin, HIGH);
     } else {
-      analogWrite(ledPinLux, floor(value*10.23));
+      digitalWrite(ledPin, LOW);
     }
   }
   delay(delayTime);

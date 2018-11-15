@@ -1,8 +1,8 @@
-#include <brzo_i2c.h>
-#include <ESP8266WiFi.h>
+#include <WiFi.h>
 #include <WiFiUdp.h>
 #include <ArduinoJson.h>
-#include <SSD1306Brzo.h>
+#include <Wire.h>
+#include "SSD1306.h"
 #include <TimeLib.h>
 #include <Timezone.h>  
 
@@ -14,8 +14,9 @@
 
 #define SSID "demoIT"
 #define PASSWORD ""
+#define UDP_TX_PACKET_MAX_SIZE 128
 
-SSD1306Brzo display(0x3c, D3, D5);
+SSD1306 display(0x3c, 21, 22);
 
 // UDP Client
 WiFiUDP udp;
