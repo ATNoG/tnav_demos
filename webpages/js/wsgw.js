@@ -16,6 +16,12 @@ function ReleaseAll() {
   ws.send(JSON.stringify(msg))
 }
 
+function Shutdown() {
+  console.log("Shutdown")
+  msg = {type:'shutdown'}
+  ws.send(JSON.stringify(msg))
+}
+
 function setupWS(address) {
   ws = new WebSocket(address);
   ws.onopen = function()
@@ -49,31 +55,31 @@ function setupWS(address) {
     newtbody.appendChild(trow);
     console.log(topics)
 
-      // Add Topics and Connections
-      for(i in topics)
-      {
-        console.log(topics[i])
-          var row1 = document.createElement("tr");
-        var c11 = document.createElement("td");
-        var c12 = document.createElement("td");
-        c11.appendChild(document.createTextNode(topics[i].topic));
-        c12.appendChild(document.createTextNode(topics[i].queue));
-        row1.appendChild(c11);
-        row1.appendChild(c12);
-        newtbody.appendChild(row1);
+    // Add Topics and Connections
+    for(i in topics)
+    {
+      console.log(topics[i])
+      var row1 = document.createElement("tr");
+      var c11 = document.createElement("td");
+      var c12 = document.createElement("td");
+      c11.appendChild(document.createTextNode(topics[i].topic));
+      c12.appendChild(document.createTextNode(topics[i].queue));
+      row1.appendChild(c11);
+      row1.appendChild(c12);
+      newtbody.appendChild(row1);
 
-        var row2 = document.createElement("tr");
-        var c21 = document.createElement("td");
-        c21.appendChild(document.createTextNode("Connections:"));
-        row2.appendChild(c21);
-        var connections = topics[i].connections;
-        for(j in connections) {
-          var cl = document.createElement("td");
-          cl.appendChild(document.createTextNode(connections[j]));
-          row2.appendChild(cl);
-        }
-        newtbody.appendChild(row2);
+      var row2 = document.createElement("tr");
+      var c21 = document.createElement("td");
+      c21.appendChild(document.createTextNode("Connections:"));
+      row2.appendChild(c21);
+      var connections = topics[i].connections;
+      for(j in connections) {
+        var cl = document.createElement("td");
+        cl.appendChild(document.createTextNode(connections[j]));
+        row2.appendChild(cl);
       }
+      newtbody.appendChild(row2);
+    }
 
     // Replace tbody
     var oldtbody = document.getElementsByTagName("tbody").item(0);
