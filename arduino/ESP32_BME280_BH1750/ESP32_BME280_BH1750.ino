@@ -56,7 +56,7 @@ void setup() {
     Serial.print(".");
   }
   Serial.println("");
-  Serial.println("NodeMCU(ESP8266)");
+  Serial.println("NodeMCU(ESP32)");
   Serial.print("Connected to ");
   Serial.println(SSID);
   Serial.print("IP address: ");
