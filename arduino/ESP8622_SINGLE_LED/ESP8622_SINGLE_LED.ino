@@ -7,11 +7,11 @@ const char* password = "";
 
 unsigned long delayTime = 10;
 unsigned int ledPin = D6;
-unsigned int humidity = 85;
+unsigned int humidity = 70;
 
 // UDP Client
 WiFiUDP udp;
-unsigned int localUdpPort = 4220;
+unsigned int localUdpPort = 5000;
 const char* ip = "192.168.0.1";
 int port = 8888;
 char packetBuffer[UDP_TX_PACKET_MAX_SIZE];

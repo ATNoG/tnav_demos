@@ -79,7 +79,7 @@ function setupHighcharts() {
         return data;
       }())
     },
-    {name: 'humidity',
+    {name: 'Humidity',
       type: 'spline',
       yAxis: 1,
       color: '#7cb5ec',
@@ -91,7 +91,7 @@ function setupHighcharts() {
         return data;
       }())
     },
-    {name: 'pressure',
+    {name: 'Pressure',
       type: 'spline',
       yAxis: 2,
       color: '#90ed7d',

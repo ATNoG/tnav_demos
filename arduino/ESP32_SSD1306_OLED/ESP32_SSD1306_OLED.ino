@@ -132,7 +132,7 @@ void setup() {
 
 void loop() {
   char m[4];
-  char buff[20];
+  char buff[32];
   strcpy(m, monthShortStr(month(ts)));
   sprintf(buff, "%.2d %s %d %.2d:%.2d:%.2d", day(ts), m, year(ts), hour(ts), minute(ts), second(ts));
   
@@ -176,5 +176,5 @@ void loop() {
     Serial.println();
   }
   
-  delay(10);
+  delay(100);
 }
