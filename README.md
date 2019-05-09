@@ -24,7 +24,7 @@ For more information about these samples, click [here](webpages).
 
 ## Authors
 
-* **[Mário Antunes](https://github.com/mariolpantunes)**
+* **Mário Antunes** - [mariolpantunes](https://github.com/mariolpantunes)
 
 ## License
 
