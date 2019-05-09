@@ -188,7 +188,7 @@ function setupWS(charts, ws) {
   ws.onmessage = function (evt)
   {
     var received_msg = evt.data;
-    //console.log(received_msg);
+    console.log(received_msg);
     var json = JSON.parse(received_msg);
     var ts = json.ts*1000;
     switch(json.topic) {
