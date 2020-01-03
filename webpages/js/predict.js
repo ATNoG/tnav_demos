@@ -265,6 +265,6 @@ function checkHC(ws, tsm) {
 }
 
 function setup(ws) {
-  let tsm = new TSM(5, 10, 0, 100);
+  let tsm = new TSM(3, 20, 0, 100);
   checkHC(ws, tsm);
 }

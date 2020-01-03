@@ -7,87 +7,74 @@ function setup(ws) {
 function requestStatus(ws) {
   console.log("Request status...")
   ws.send("{\"type\":\"status\"}");
-  setTimeout(function() {requestStatus(ws)}, 3000);
+  setTimeout(function () { requestStatus(ws) }, 3000);
 }
 
 function ReleaseAll() {
   console.log("ReleaseAll")
-  msg = {type:'releaseall'}
+  msg = { type: 'releaseall' }
   ws.send(JSON.stringify(msg))
 }
 
 function Shutdown() {
   console.log("Shutdown")
-  msg = {type:'shutdown'}
+  msg = { type: 'shutdown' }
   ws.send(JSON.stringify(msg))
 }
 
 function setupWS(address) {
   ws = new WebSocket(address);
-  ws.onopen = function()
-  {
+  ws.onopen = function () {
     console.log("Connection open.");
     requestStatus(ws);
   };
 
-  ws.onmessage = function (evt)
-  {
-    var received_msg = evt.data;
+  ws.onmessage = function (evt) {
+    let received_msg = evt.data;
     console.log(received_msg);
-    var topics = JSON.parse(received_msg).topics;
+    let topics = JSON.parse(received_msg).topics;
 
-    var newtbody = document.createElement('tbody');
+    let table = document.createElement('tbody');
 
     // Add Number of Topics
-    var ntopics = document.createElement("tr");
-    var nt1 = document.createElement("td");
-    var nt2 = document.createElement("td");
-    nt1.appendChild(document.createTextNode("Number of topics:"));
-    nt2.appendChild(document.createTextNode(topics.length));
-    ntopics.appendChild(nt1);
-    ntopics.appendChild(nt2);
-    newtbody.appendChild(ntopics);
+    let ntopics = table.insertRow(-1);
+    let nt1 = ntopics.insertCell(-1);
+    let nt2 = ntopics.insertCell(-1);
+    nt1.innerHTML = "Number of topics:";
+    nt2.innerHTML = topics.length;
 
-    var trow = document.createElement("tr");
-    var tcol = document.createElement("td");
-    tcol.appendChild(document.createTextNode("Topics:"));
-    trow.appendChild(tcol);
-    newtbody.appendChild(trow);
+    let trow = table.insertRow(-1);
+    let tcol = trow.insertCell(-1);
+    tcol.innerHTML = "Topics:";
+
     console.log(topics)
 
     // Add Topics and Connections
-    for(i in topics)
-    {
+    for (i in topics) {
       console.log(topics[i])
-      var row1 = document.createElement("tr");
-      var c11 = document.createElement("td");
-      var c12 = document.createElement("td");
-      c11.appendChild(document.createTextNode(topics[i].topic));
-      c12.appendChild(document.createTextNode(topics[i].queue));
-      row1.appendChild(c11);
-      row1.appendChild(c12);
-      newtbody.appendChild(row1);
+      var row1 = table.insertRow(-1);
+      var c11 = row1.insertCell(-1);
+      var c12 = row1.insertCell(-1);
+      c11.innerHTML = topics[i].topic;
+      c12.innerHTML = topics[i].queue;
 
-      var row2 = document.createElement("tr");
-      var c21 = document.createElement("td");
-      c21.appendChild(document.createTextNode("Connections:"));
-      row2.appendChild(c21);
+
+      var row2 = table.insertRow(-1);
+      var c21 = row2.insertCell(-1);
+      c21.innerHTML = "Connections:";
       var connections = topics[i].connections;
-      for(j in connections) {
-        var cl = document.createElement("td");
-        cl.appendChild(document.createTextNode(connections[j]));
-        row2.appendChild(cl);
+      for (j in connections) {
+        var cl = row2.insertCell(-1);
+        cl.innerHTML = connections[j];
       }
-      newtbody.appendChild(row2);
     }
 
     // Replace tbody
     var oldtbody = document.getElementsByTagName("tbody").item(0);
-    oldtbody.parentNode.replaceChild(newtbody, oldtbody);
+    oldtbody.parentNode.replaceChild(table, oldtbody);
   };
 
-  ws.onclose = function()
-  {
+  ws.onclose = function () {
     console.log("Connection is closed...");
   };
 
