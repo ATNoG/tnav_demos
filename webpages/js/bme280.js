@@ -1,5 +1,5 @@
 function setupHighcharts() {
-  Highcharts.setOptions({global: {useUTC: false}});
+  Highcharts.setOptions({ global: { useUTC: false } });
   var chart = Highcharts.chart('container', {
     chart: {
       type: 'spline'
@@ -45,8 +45,8 @@ function setupHighcharts() {
       opposite: true
     },
     {
-      min:950,
-      max:1100,
+      min: 950,
+      max: 1100,
       labels: {
         format: '{value}hPa',
         style: {
@@ -67,38 +67,41 @@ function setupHighcharts() {
     exporting: {
       enabled: false
     },
-    series: [{name: 'Temperature',
+    series: [{
+      name: 'Temperature',
       type: 'spline',
       yAxis: 0,
       color: '#f15c80',
       data: (function () {
         var data = [], time = 0, i;
         for (i = 0; i < 10; i += 1) {
-          data.push({x: (time - ((10-i) * 1000)),y: 15});
+          data.push({ x: (time - ((10 - i) * 1000)), y: 15 });
         }
         return data;
       }())
     },
-    {name: 'Humidity',
+    {
+      name: 'Humidity',
       type: 'spline',
       yAxis: 1,
       color: '#7cb5ec',
       data: (function () {
         var data = [], time = 0, i;
         for (i = 0; i < 10; i += 1) {
-          data.push({x: (time - ((10-i) * 1000)),y: 50});
+          data.push({ x: (time - ((10 - i) * 1000)), y: 50 });
         }
         return data;
       }())
     },
-    {name: 'Pressure',
+    {
+      name: 'Pressure',
       type: 'spline',
       yAxis: 2,
       color: '#90ed7d',
       data: (function () {
         var data = [], time = 0, i;
         for (i = 0; i < 10; i += 1) {
-          data.push({x: (time - ((10-i) * 1000)),y: 1000});
+          data.push({ x: (time - ((10 - i) * 1000)), y: 1000 });
         }
         return data;
       }())
@@ -109,49 +112,61 @@ function setupHighcharts() {
 }
 
 function setupWS(chart, ws) {
-  var ws = new WebSocket(ws);
+  let mqtt = new Paho.MQTT.Client('binky.local', 9001, 'clientjs');
 
-  ws.onopen = function()
-  {
-    console.log("Subscribe topics: temperature, humidity and pressure.");
-    ws.send("{\"type\":\"sub\",\"topic\":\"temperature\"}");
-    ws.send("{\"type\":\"sub\",\"topic\":\"humidity\"}");
-    ws.send("{\"type\":\"sub\",\"topic\":\"pressure\"}");
-  };
+  // set callback handlers
+  mqtt.onConnectionLost = onConnectionLost;
+  mqtt.onMessageArrived = onMessageArrived;
 
-  ws.onmessage = function (evt)
-  {
-    var received_msg = evt.data;
-    console.log(received_msg);
-    var json = JSON.parse(received_msg);
-    var ts = json.ts*1000;
-    switch(json.topic) {
-      case "temperature":
-        chart.series[0].addPoint([ts, json.value], true, true);
+  let options = { timeout: 3, onSuccess: onConnect };
+  mqtt.connect(options);
+
+  function onConnect() {
+    console.log('Connected...');
+    mqtt.subscribe('esp/hum');
+    mqtt.subscribe('esp/pre');
+    mqtt.subscribe('esp/tem');
+  }
+
+  // called when the client loses its connection
+  function onConnectionLost(responseObject) {
+    if (responseObject.errorCode !== 0) {
+      console.log("onConnectionLost: " + responseObject.errorMessage);
+    }
+  }
+
+  // called when a message arrives
+  function onMessageArrived(message) {
+    let today = new Date();
+    let time = today.getTime();
+
+    console.log("onMessageArrived(" + message.destinationName + "):" + message.payloadString);
+    value = parseFloat(message.payloadString);
+
+    switch (message.destinationName) {
+      case "esp/tem":
+        chart.series[0].addPoint([time, value], true, true);
         break;
-      case "humidity":
-        chart.series[1].addPoint([ts, json.value], true, true);
+      case "esp/hum":
+        chart.series[1].addPoint([time, value], true, true);
         break;
-      case "pressure":
-        chart.series[2].addPoint([ts, json.value], true, true);
+      case "esp/pre":
+        chart.series[2].addPoint([time, value], true, true);
         break;
     }
-  };
 
-  ws.onclose = function()
-  {
-    console.log("Connection is closed...");
-  };
-}
 
-function checkHC(ws) {
-  if(typeof Highcharts == "undefined") {
-    setTimeout(function() {checkHC(ws)}, 1000);
-  } else {
-    setupWS(setupHighcharts(), ws);
   }
 }
 
-function setup(ws) {
-  checkHC(ws);  
+function checkHC() {
+  if (typeof Highcharts == "undefined") {
+    setTimeout(function () { checkHC() }, 1000);
+  } else {
+    setupWS(setupHighcharts());
+  }
+}
+
+function setup() {
+  checkHC();
 }

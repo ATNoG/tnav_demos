@@ -225,46 +225,53 @@ function setupHighcharts(w, tsm) {
   }
 
   predicted.series[0].addPoint([today.getTime(), tsm.predict()], true, true)
-
   return [chart, predicted];
 }
 
-function setupWS(charts, ws, tsm) {
-  var ws = new WebSocket(ws);
+function setupWS(charts, tsm) {
+  let mqtt = new Paho.MQTT.Client('binky.local', 9001, 'clientjs');
+      
+  // set callback handlers
+  mqtt.onConnectionLost = onConnectionLost;
+  mqtt.onMessageArrived = onMessageArrived;
+      
+  let options = {timeout:3, onSuccess: onConnect};
+  mqtt.connect(options);
+    
+  function onConnect(){
+    console.log('Connected...');
+    mqtt.subscribe('esp/hum');
+  }
 
-  ws.onopen = function () {
-    console.log("Subscribe topics: temperature, humidity and pressure.");
-    ws.send("{\"type\":\"sub\",\"topic\":\"humidity\"}");
-  };
-
-  ws.onmessage = function (evt) {
-    var received_msg = evt.data;
-    console.log(received_msg);
-    var json = JSON.parse(received_msg);
-    var ts = json.ts * 1000;
-    switch (json.topic) {
-      case "humidity":
-        charts[0].series[0].addPoint([ts, json.value], true, true);
-        tsm.learn(json.value);
-        charts[1].series[0].addPoint([ts, tsm.predict()], true, true);
-        break;
+    // called when the client loses its connection
+    function onConnectionLost(responseObject) {
+      if (responseObject.errorCode !== 0) {
+        console.log("onConnectionLost: "+responseObject.errorMessage);
+      }
     }
-  };
 
-  ws.onclose = function () {
-    console.log("Connection is closed...");
-  };
+    // called when a message arrives
+    function onMessageArrived(message) {
+      let today = new Date();
+      let time = today.getTime();
+    
+      console.log("onMessageArrived("+message.destinationName+"):"+message.payloadString);
+      humidity = parseFloat(message.payloadString);
+
+      charts[0].series[0].addPoint([time, humidity], true, true);
+      tsm.learn(humidity);
+      charts[1].series[0].addPoint([time, tsm.predict()], true, true);
+    }
 }
 
-function checkHC(ws, tsm) {
+function checkHC(tsm) {
   if (typeof Highcharts == 'undefined') {
-    setTimeout(function () { checkHC(ws) }, 1000);
+    setTimeout(function () { checkHC(tsm) }, 1000);
   } else {
-    setupWS(setupHighcharts(10, tsm), ws, tsm);
+    setupWS(setupHighcharts(10, tsm), tsm);
   }
 }
 
-function setup(ws) {
-  let tsm = new TSM(3, 20, 0, 100);
-  checkHC(ws, tsm);
+function setup() {
+  checkHC(new TSM(3, 20, 0, 100));
 }

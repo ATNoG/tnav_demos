@@ -7,8 +7,8 @@
 #include <Adafruit_BME280.h>
 #include <BH1750.h>
 
-#define SSID "demoIT"
-#define PASSWORD ""
+#define SSID "TheOffice"
+#define PASSWORD "8006002030"
 
 #define SEALEVELPRESSURE_HPA 1013.25
 
@@ -20,12 +20,12 @@ unsigned long delayTime = 1000;
 // UDP Client
 WiFiUDP udp;
 unsigned int localUdpPort = 4210;
-const char* ip = "192.168.0.1";
+const char* ip = "192.168.0.100";
 unsigned int port = 8888;
 
 // Wifi NTP UDP
 WiFiUDP ntpUDP;
-NTPClient timeClient(ntpUDP, "192.168.0.1");
+NTPClient timeClient(ntpUDP, "192.168.0.100");
 
 void setup() {
   Serial.begin(115200);
