@@ -2,12 +2,12 @@
 #include <Wire.h>
 #include <WiFi.h>
 
-#define SSID "demoIT"
-#define PASSWORD ""
+#define SSID "ATNoG-DEMO-WLAN"
+#define PASSWORD "8006002030"
 
 // Wifi NTP UDP
 WiFiUDP ntpUDP;
-NTPClient timeClient(ntpUDP, "2.pt.pool.ntp.org");
+NTPClient timeClient(ntpUDP, "time.ua.pt");
 
 void setup() {
   Serial.begin(115200);

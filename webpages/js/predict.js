@@ -229,7 +229,7 @@ function setupHighcharts(w, tsm) {
 }
 
 function setupWS(charts, tsm) {
-  let mqtt = new Paho.MQTT.Client('binky.local', 9001, 'clientjs');
+  let mqtt = new Paho.MQTT.Client('localhost', 9001, 'clientjs');
       
   // set callback handlers
   mqtt.onConnectionLost = onConnectionLost;
