@@ -24,7 +24,7 @@ Max72xxPanel matrix = Max72xxPanel(pinCS, numberOfHorizontalDisplays, numberOfVe
 unsigned int wait = 70;
 unsigned int spacer = 1;
 unsigned int width  = 5 + spacer;
-const char* ssid = "ATNoG-DEMO-WLAN";
+const char* ssid = "TheOffice";
 const char* password = "8006002030";
 
 float m = float(INTENSITY_LOW - INTENSITY_HIGH) / float(AMBIENT_LOW - AMBIENT_HIGH),

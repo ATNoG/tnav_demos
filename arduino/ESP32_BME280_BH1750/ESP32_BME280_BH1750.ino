@@ -20,12 +20,12 @@ unsigned long delayTime = 1000;
 // UDP Client
 WiFiUDP udp;
 unsigned int localUdpPort = 4210;
-const char* ip = "192.168.0.100";
+const char* ip = "192.168.1.125";
 unsigned int port = 8888;
 
 // Wifi NTP UDP
 WiFiUDP ntpUDP;
-NTPClient timeClient(ntpUDP, "192.168.0.100");
+NTPClient timeClient(ntpUDP, "192.168.1.125");
 
 void setup() {
   Serial.begin(115200);
@@ -71,7 +71,7 @@ void setup() {
 
 void loop() {
   // JSON Buffer
-  StaticJsonBuffer<100> jsonBuffer;
+  JsonDocument doc;
 
   // Update NTP client
   timeClient.update();
@@ -103,41 +103,45 @@ void loop() {
 
   // Publish UDP Packets
   // Temperature
-  JsonObject& root = jsonBuffer.createObject();
-  root["type"] = "pub";
-  root["topic"] = "temperature";
-  root["value"] = t;
-  root["ts"] = ts;
+  //JsovnObject& root = doc.createObject();
+  doc["type"] = "pub";
+  doc["topic"] = "temperature";
+  doc["value"] = t;
+  doc["ts"] = ts;
   
   udp.beginPacket(ip, port);
-  root.printTo(udp);
+  //root.printTo(udp);
+  serializeJson(doc, udp);
   udp.println();
   udp.endPacket();
 
   // Humidity
-  root["topic"] = "humidity";
-  root["value"] = h; 
+  doc["topic"] = "humidity";
+  doc["value"] = h; 
   
   udp.beginPacket(ip, port);
-  root.printTo(udp);
+  //root.printTo(udp);
+  serializeJson(doc, udp);
   udp.println();
   udp.endPacket();
 
   // Pressure
-  root["topic"] = "pressure";
-  root["value"] = p; 
+  doc["topic"] = "pressure";
+  doc["value"] = p; 
   
   udp.beginPacket(ip, port);
-  root.printTo(udp);
+  //root.printTo(udp);
+  serializeJson(doc, udp);
   udp.println();
   udp.endPacket();
 
   // Light
-  root["topic"] = "light";
-  root["value"] = l; 
+  doc["topic"] = "light";
+  doc["value"] = l; 
   
   udp.beginPacket(ip, port);
-  root.printTo(udp);
+  //root.printTo(udp);
+  serializeJson(doc, udp);
   udp.println();
   udp.endPacket();
   
